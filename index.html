@@ -1,162 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Le4veMessage</title>
-  <style>
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body {
-      font-family: Tahoma, sans-serif;
-      background: #000;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2vh 2vw;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Le4veMessage</title>
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body {
+    font-family: Tahoma, sans-serif;
+    background: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vh 2vw;
+  }
 
-    h1 {
-      font-size: clamp(28px, 6vw, 50px);
-      margin-bottom: 1rem;
-      text-shadow: 0 0 6px #fff;
-    }
+  h1 {
+    font-size: clamp(28px, 6vw, 50px);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 6px #fff;
+  }
 
-    /* Message Box */
-    #messageBox {
-      width: 90vw;
-      max-width: 600px;
-      height: 200px;
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(0deg, #111, #222, #111);
-      animation: rotateGradient 15s linear infinite;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+  /* Message Box */
+  #messageBox {
+    width: 90vw;
+    max-width: 600px;
+    max-height: 250px;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(0deg, #111, #222, #111);
+    animation: rotateGradient 15s linear infinite;
+    overflow: hidden; 
+    display: none;  
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    @keyframes rotateGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+  @keyframes rotateGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-    .message-content {
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      text-align: left;
-    }
+  .message-content {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    text-align: left;
+  }
 
-    .message-image {
-      max-width: 100%;
-      border-radius: 8px;
-    }
+  
+  form {
+    width: 90vw;
+    max-width: 600px;
+    background: #111;
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
 
-    /* Form */
-    form {
-      width: 90vw;
-      max-width: 600px;
-      background: #111;
-      padding: 1rem;
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
+  label { color: #ccc; font-size: 0.9rem; }
 
-    label { color: #ccc; font-size: 0.9rem; }
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #000;
+    color: #fff;
+    resize: none;  
+  }
 
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 0.6rem;
-      border-radius: 8px;
-      border: 1px solid #555;
-      background: #000;
-      color: #fff;
-    }
+  button {
+    padding: 0.7rem;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:hover { background: #ccc; }
 
-    input[type="file"] {
-      color: #fff;
-    }
-
-    button {
-      padding: 0.7rem;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover { background: #ccc; }
-
-    .form-result {
-      text-align: center;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-    }
-  </style>
+  .form-result {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+</style>
 </head>
 <body>
 
-  <h1>Le4veMessage</h1>
+<h1>Le4veMessage</h1>
 
-  <!-- Where the message + image will appear -->
-  <div id="messageBox">
-    <div class="message-content" id="displayMessage">Your message will appear here…</div>
-    <img id="displayImage" class="message-image" style="display:none;">
-  </div>
 
-  <!-- Message form -->
-  <form id="messageForm" enctype="multipart/form-data">
-    <label for="identity">Name / FB / IG (optional):</label>
-    <input type="text" id="identity" name="identity" placeholder="(optional)">
+<div id="messageBox">
+  <div class="message-content" id="displayMessage"></div>
+</div>
 
-    <label for="messageInput">Your Message:</label>
-    <textarea id="messageInput" name="message" rows="4" required></textarea>
+ 
+<form id="messageForm" action="https://formspree.io/f/mldpejgg" method="POST">
+  <label for="identity">Name / FB / IG (optional):</label>
+  <input type="text" id="identity" name="identity" placeholder="(optional)">
 
-    <label for="imageInput">Attach an image:</label>
-    <input type="file" id="imageInput" name="image" accept="image/*">
+  <label for="messageInput">Your Message:</label>
+  <textarea id="messageInput" name="message" rows="4" required></textarea>
 
-    <button type="submit">Post Message</button>
-    <div class="form-result" id="formResult"></div>
-  </form>
+  <button type="submit">Send Message</button>
+  <div class="form-result" id="formResult"></div>
+</form>
 
-  <script>
-    const form = document.getElementById("messageForm");
-    const displayMessage = document.getElementById("displayMessage");
-    const displayImage = document.getElementById("displayImage");
-    const resultEl = document.getElementById("formResult");
+<script>
+  const form = document.getElementById('messageForm');
+  const messageBox = document.getElementById('messageBox');
+  const displayMessage = document.getElementById('displayMessage');
+  const resultEl = document.getElementById('formResult');
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    resultEl.style.color = '';
+    resultEl.textContent = 'Sending...';
 
-      const messageText = document.getElementById("messageInput").value;
-      const imageFile = document.getElementById("imageInput").files[0];
+    const formData = new FormData(form);
+    const messageText = formData.get('message');
 
-      // Show message
-      displayMessage.textContent = messageText;
+ 
+    messageBox.style.display = 'flex';
+    displayMessage.textContent = messageText || '';
 
-      // Show image preview if uploaded
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          displayImage.src = event.target.result;
-          displayImage.style.display = "block";
-        };
-        reader.readAsDataURL(imageFile);
+    try {
+      const response = await fetch(form.action, {
+        method: form.method || 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        resultEl.style.color = '#0f0';
+        resultEl.textContent = 'Message sent successfully!';
+        form.reset();
       } else {
-        displayImage.style.display = "none";
+        resultEl.style.color = 'red';
+        resultEl.textContent = 'Oops! Something went wrong.';
       }
-
-      resultEl.style.color = "#0f0";
-      resultEl.textContent = "Message posted!";
-      form.reset();
-    });
-  </script>
+    } catch (err) {
+      resultEl.style.color = 'red';
+      resultEl.textContent = 'Network error. Try again.';
+    }
+  });
+</script>
 
 </body>
 </html>
