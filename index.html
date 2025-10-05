@@ -1,47 +1,98 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Le4veMessage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Leave a Message</title>
+
 <style>
-  * { box-sizing: border-box; margin:0; padding:0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: Tahoma, sans-serif;
-    background: #000;
+    font-family: "Poppins", Tahoma, sans-serif;
+    background: radial-gradient(circle at top, #0a0a0a, #000);
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2vh 2vw;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 4vh 4vw;
+    overflow-x: hidden;
   }
 
   h1 {
     font-size: clamp(28px, 6vw, 50px);
     margin-bottom: 1rem;
-    text-shadow: 0 0 6px #fff;
+    text-shadow: 0 0 8px #fff;
+    letter-spacing: 1px;
+    text-align: center;
   }
 
-  /* Message Box */
+
+  #privacyModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .modal-content h2 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+
+  .modal-content p {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.5;
+    margin-bottom: 1.4rem;
+  }
+
+  .modal-content button {
+    padding: 0.7rem 1.5rem;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .modal-content button:hover { background: #ccc; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+
   #messageBox {
     width: 90vw;
     max-width: 600px;
-    max-height: 250px;
+    min-height: 60px;
     border-radius: 12px;
     padding: 1rem;
     margin-bottom: 1rem;
-    background: linear-gradient(0deg, #111, #222, #111);
-    animation: rotateGradient 15s linear infinite;
-    overflow: hidden; 
-    display: none;  
+    background: linear-gradient(135deg, #1a1a1a, #111);
+    display: none;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  @keyframes rotateGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    border: 1px solid #333;
   }
 
   .message-content {
@@ -50,74 +101,150 @@
     text-align: left;
   }
 
-  
+
   form {
     width: 90vw;
     max-width: 600px;
     background: #111;
-    padding: 1rem;
+    padding: 1.2rem;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    border: 1px solid #333;
+    box-shadow: 0 0 8px rgba(255,255,255,0.05);
   }
 
-  label { color: #ccc; font-size: 0.9rem; }
+  label {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
 
   input[type="text"], textarea {
     width: 100%;
-    padding: 0.6rem;
+    padding: 0.8rem;
     border-radius: 8px;
-    border: 1px solid #555;
+    border: 1px solid #444;
     background: #000;
     color: #fff;
-    resize: none;  
+    font-size: 0.95rem;
+    resize: none;
+    transition: 0.3s;
   }
 
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: #888;
+    box-shadow: 0 0 8px rgba(255,255,255,0.3);
+    outline: none;
+  }
+
+
+
   button {
-    padding: 0.7rem;
+    padding: 0.8rem;
     background: #fff;
     color: #000;
     border: none;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.3s;
   }
-  button:hover { background: #ccc; }
+
+  button:hover { background: #ddd; }
 
   .form-result {
     text-align: center;
     font-size: 0.9rem;
     margin-top: 0.5rem;
   }
+
+  footer {
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    color: #777;
+    text-align: center;
+  }
+
+  footer a {
+    color: #aaa;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  footer a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
 </style>
 </head>
+
 <body>
 
-<h1></h1>
 
+<div id="privacyModal">
+  <div class="modal-content">
+    <h2>Privacy Reminder</h2>
+    <p>
+      You’re completely <strong>anonymous</strong> unless you choose to share your identity.  
+      Your message will be sent to <strong>Charles Fynn</strong> server.
+    </p>
+    <button id="continueBtn">I Understand</button>
+  </div>
+</div>
+
+<h1>To: Charles</h1>
 
 <div id="messageBox">
   <div class="message-content" id="displayMessage"></div>
 </div>
 
- 
 <form id="messageForm" action="https://formspree.io/f/mldpejgg" method="POST">
-  <label for="identity">identity:</label>
-  <input type="text" id="identity" name="identity" placeholder="(optional)">
+  <label for="identity">Identity (optional):</label>
+  <input type="text" id="identity" name="identity" placeholder="Enter your name or leave blank">
 
-  <label for="messageInput">your message:</label>
-  <textarea id="messageInput" name="message" rows="4" required></textarea>
+ 
+
+  <label for="messageInput">Your message:</label>
+  <textarea id="messageInput" name="message" rows="4" placeholder="Type your message..." required></textarea>
 
   <button type="submit">Send Message</button>
   <div class="form-result" id="formResult"></div>
 </form>
 
+<footer>
+  © 2025 Created by <a href="#" target="_blank"> Louís Ryc</a>
+</footer>
+
 <script>
+  const modal = document.getElementById('privacyModal');
+  const continueBtn = document.getElementById('continueBtn');
   const form = document.getElementById('messageForm');
   const messageBox = document.getElementById('messageBox');
   const displayMessage = document.getElementById('displayMessage');
   const resultEl = document.getElementById('formResult');
+  const anonCheck = document.getElementById('anonymousCheck');
+  const identityField = document.getElementById('identity');
+
+
+  continueBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+
+
+  anonCheck.addEventListener('change', () => {
+    if (anonCheck.checked) {
+      identityField.value = '';
+      identityField.disabled = true;
+      identityField.placeholder = 'Anonymous mode enabled';
+    } else {
+      identityField.disabled = false;
+      identityField.placeholder = 'Enter your name or leave blank';
+    }
+  });
+
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -127,7 +254,6 @@
     const formData = new FormData(form);
     const messageText = formData.get('message');
 
- 
     messageBox.style.display = 'flex';
     displayMessage.textContent = messageText || '';
 
@@ -142,6 +268,10 @@
         resultEl.style.color = '#0f0';
         resultEl.textContent = 'Message sent successfully!';
         form.reset();
+        identityField.disabled = false;
+
+       
+        setTimeout(() => { resultEl.textContent = ''; }, 3000);
       } else {
         resultEl.style.color = 'red';
         resultEl.textContent = 'Oops! Something went wrong.';
@@ -155,4 +285,3 @@
 
 </body>
 </html>
-
